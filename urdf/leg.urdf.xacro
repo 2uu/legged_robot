@@ -4,6 +4,7 @@
 <!-- legs -->
 <property name="leg_base_height" value="0.050" />
 <property name="leg_base_radius" value="0.025" />
+<property name="leg_base_mass" value="0.5" />
 <property name="lower_leg_height" value="0.3" />
 <property name="lower_leg_radius" value="0.02" />
 <property name="lower_leg_mass" value="2.0" />
@@ -34,11 +35,22 @@ izz="${m*r*r/2}" />
     </geometry>
   <material name="Gray" />
    </visual>
+   <collision>
+   <origin xyz="0 0 0" rpy="0 0 0 " />
+	<geometry>
+	<cylinder length="${leg_base_height}" radius="${leg_base_radius}"/>
+	</geometry>
+</collision>
+<inertial>
+     <origin xyz="0 0 0" />
+      <mass value="${leg_base_mass}" />
+      <cylinder_inertia  m="${leg_base_mass}" r="${leg_base_radius}" h="${leg_base_height}" />
+    </inertial>
   </link>
   
 <link name='link_${lr}_${fr}_lower'>
     <inertial>
-     <origin xyz="0 0 ${lower_leg_height/2}" rpy="0 0 0" />
+     <origin xyz="0 0 ${lower_leg_height/2}"/>
       <mass value="${lower_leg_mass}" />
       <cylinder_inertia  m="${lower_leg_mass}" r="${lower_leg_radius}" h="${lower_leg_height}" />
     </inertial>
@@ -59,7 +71,7 @@ izz="${m*r*r/2}" />
   
   <link name='link_${lr}_${fr}_upper'>
     <inertial>
-      <origin xyz="0 0 ${upper_leg_height/2}" rpy="0 0 0" />
+      <origin xyz="0 0 ${upper_leg_height/2}"/>
       <mass value="${upper_leg_mass}" />
       <cylinder_inertia  m="${upper_leg_mass}" r="${upper_leg_radius}" h="${upper_leg_height}" />
     </inertial>
@@ -101,7 +113,7 @@ izz="${m*r*r/2}" />
   <joint type="revolute" name="hinge_${lr}_${fr}_3">
     <parent link="link_${lr}_${fr}_upper"/>  
     <child link="link_${lr}_${fr}_lower"/>
-    <origin xyz="0 0 0.32" rpy="0 0 0" />
+    <origin xyz="0 0 0.30" rpy="0 0 0" />
     <axis xyz="0 1 0"/>
     <limit effort="${limit_effort}" velocity="${limit_velocity}" lower="${limit_lower_3}" upper="${limit_upper_3}" />
   </joint>

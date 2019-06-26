@@ -1,5 +1,5 @@
 <?xml version='1.0'?>
-<robot name="legged_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="legged_robot" xmlns:xacro="http://ros.org/wiki/xacro">
 
 <!-- Included URDF/XACRO Files -->
 <xacro:include filename="$(find legged_robot)/urdf/materials.urdf.xacro" />
@@ -26,11 +26,11 @@ iyy="${m*(x*x+z*z)/12.}" iyz = "0."
 izz="${m*(x*x+z*z)/12.}" />
 </macro>
 
-<link name="base_footprint"/>
+<!--link name="base_footprint"/>
 
 <gazebo reference="base_footprint">
 <turnGravityOff>false</turnGravityOff>
-</gazebo>
+</gazebo-->
 
   <!--body-->
   <link name="torso">
@@ -39,26 +39,26 @@ izz="${m*(x*x+z*z)/12.}" />
     <mass value="${base_mass}" />
     <box_inertia  m="${base_mass}" x="${base_x_size}" y="${base_y_size}" z="${base_z_size}"/>
     </inertial>
-    <collision name='collision'>
-    <origin xyz="0 0 0" rpy="0 0 0" />
-      <geometry>
-	<box size="${base_x_size} ${base_y_size} ${base_z_size}"/>
-      </geometry>
-    </collision>
-    <visual name='visual'>
+    <visual>
     <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
 	<box size="${base_x_size} ${base_y_size} ${base_z_size}"/>
       </geometry>
     <material name="Gray" />
    </visual>
+   <collision>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+	<box size="${base_x_size} ${base_y_size} ${base_z_size}"/>
+      </geometry>
+    </collision>
   </link>
 
-<joint name="base_link_joint" type="fixed">
+<!--joint name="base_link_joint" type="fixed">
 <origin xyz="0 0 0" rpy="0 0 0" />
 <parent link="base_footprint"/>
 <child link="torso" />
-</joint>
+</joint-->
 
 <!--legs macro-->
 <leg fr="fore" lr="left" transX="1" transY="1"/>
@@ -68,7 +68,7 @@ izz="${m*(x*x+z*z)/12.}" />
   
   <!-- =========gazebo reference============ -->
 <gazebo reference="torso">
-<material>Gazebo/Black</material>
+<material>Gazebo/Gray</material>
 <turnGravityOff>false</turnGravityOff>
 </gazebo>
 
