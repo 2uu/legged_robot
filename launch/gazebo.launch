@@ -1,17 +1,16 @@
 <launch>      
  <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find wamot)/worlds/monitor_gym.world"/> 
-    <arg name="paused" value="false"/>
+    <arg name="paused" value="true"/>
     <arg name="use_sim_time" value="true"/>
-    <arg name="gui" value="false"/>
+    <arg name="gui" value="true"/>
     <arg name="headless" value="false"/>
-    <arg name="debug" value="false"/>
+    <arg name="debug" value="true"/>
   </include>
 
- <param name="robot_description" command="$(find xacro)/xacro $(find legged_robot)/urdf/legged_robot.urdf.xacro" />
+ <param name="robot_description" command="$(find xacro)/xacro --inorder $(find legged_robot)/urdf/legged_robot.urdf.xacro" />
 
- <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-x 0.0 -y 0.0 -z 1.0 -param robot_description -urdf -model legged_robot" />
-
+ <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-x 0.0 -y 0.0 -z 2.0 -param robot_description -urdf -model legged_robot" />
 
  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />

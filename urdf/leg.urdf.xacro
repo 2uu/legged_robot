@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="wheel" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="leg" xmlns:xacro="http://ros.org/wiki/xacro">
 
 <!-- legs -->
 <property name="leg_base_height" value="0.050" />
@@ -28,11 +28,11 @@ izz="${m*r*r/2}" />
 <xacro:macro name="leg" params="fr lr transX transY">
 <!--fr : front, rear ; lr: left, right -->
 <link name='base_${lr}_${fr}'>
-  <visual name='visual'>
+  <visual>
     <geometry>
       <cylinder length="${leg_base_height}" radius="${leg_base_radius}"/>
     </geometry>
-  <material name="White" />
+  <material name="Gray" />
    </visual>
   </link>
   
@@ -42,18 +42,18 @@ izz="${m*r*r/2}" />
       <mass value="${lower_leg_mass}" />
       <cylinder_inertia  m="${lower_leg_mass}" r="${lower_leg_radius}" h="${lower_leg_height}" />
     </inertial>
-    <collision name='collision'>
+    <collision>
       <origin xyz="0 0 ${lower_leg_height/2}" rpy="0 0 0" />
       <geometry>
 	<cylinder length="${lower_leg_height}" radius="${lower_leg_radius}"/>
       </geometry>
     </collision>
-    <visual name='visual'>
+    <visual>
       <origin xyz="0 0 ${lower_leg_height/2}" rpy="0 0 0" />
       <geometry>
 	<cylinder length="${lower_leg_height}" radius="${lower_leg_radius}"/>
       </geometry>
-    <material name="White" />
+    <material name="Gray" />
    </visual>
   </link>
   
@@ -63,18 +63,18 @@ izz="${m*r*r/2}" />
       <mass value="${upper_leg_mass}" />
       <cylinder_inertia  m="${upper_leg_mass}" r="${upper_leg_radius}" h="${upper_leg_height}" />
     </inertial>
-    <collision name='collision'>
+    <collision>
       <origin xyz="0 0 ${upper_leg_height/2}" rpy="0 0 0" />
       <geometry>
 	<cylinder length="${upper_leg_height}" radius="${upper_leg_radius}"/>
       </geometry>
     </collision>
-    <visual name='visual'>
+    <visual>
       <origin xyz="0 0 ${upper_leg_height/2}" rpy="0 0 0" />
       <geometry>
 	<cylinder length="${upper_leg_height}" radius="${upper_leg_radius}"/>
       </geometry>
-    <material name="White" />
+    <material name="Gray" />
    </visual>
   </link>
   
@@ -84,7 +84,7 @@ izz="${m*r*r/2}" />
     <parent link="torso"/>
     <child link="base_${lr}_${fr}"/>
     <origin xyz="${transX*0.23} ${transY*0.17} 0.0" rpy="1.5707 0 0" />
-    <axis xyz="0 0 1" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
     <limit effort="${limit_effort}" velocity="${limit_velocity}" lower="${limit_lower_1}" upper="${limit_upper_1}" />
   </joint>
   
@@ -93,7 +93,7 @@ izz="${m*r*r/2}" />
     <parent link="base_${lr}_${fr}"/>  
     <child link="link_${lr}_${fr}_upper"/>
     <origin xyz="0 0 0" rpy="1.5707 0 0" />
-    <axis xyz="1 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
     <limit effort="${limit_effort}" velocity="${limit_velocity}" lower="${limit_lower_2}" upper="${limit_upper_2}" />
   </joint>
   
@@ -101,12 +101,18 @@ izz="${m*r*r/2}" />
   <joint type="revolute" name="hinge_${lr}_${fr}_3">
     <parent link="link_${lr}_${fr}_upper"/>  
     <child link="link_${lr}_${fr}_lower"/>
-    <origin xyz="0 0 0.30" rpy="0 0 0" />
-    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <origin xyz="0 0 0.32" rpy="0 0 0" />
+    <axis xyz="0 1 0"/>
     <limit effort="${limit_effort}" velocity="${limit_velocity}" lower="${limit_lower_3}" upper="${limit_upper_3}" />
   </joint>
 
 <!-- =========gazebo reference============ -->
+<gazebo reference="base_${lr}_${fr}">
+<selfCollide value="false"/>
+<material>Gazebo/Gray</material>
+<turnGravityOff>true</turnGravityOff>
+</gazebo>
+
 <gazebo reference="link_${lr}_${fr}_lower">
 <selfCollide value="false"/>
 <mu1 value="1.0"/>
@@ -114,7 +120,7 @@ izz="${m*r*r/2}" />
 <kp  value="10000000.0" />
 <kd  value="1.0" />
 <fdir1 value="1 0 0"/>
-<material>Gazebo/White</material>
+<material>Gazebo/Gray</material>
 <turnGravityOff>false</turnGravityOff>
 </gazebo>
 
@@ -125,14 +131,14 @@ izz="${m*r*r/2}" />
 <kp  value="10000000.0" />
 <kd  value="1.0" />
 <fdir1 value="1 0 0"/>
-<material>Gazebo/White</material>
+<material>Gazebo/Gray</material>
 <turnGravityOff>false</turnGravityOff>
 </gazebo>
 
 <!-- Transmission is important to link the joints and the controller -->
 <transmission name="hinge_${lr}_${fr}_1_trans">
 <type>transmission_interface/SimpleTransmission</type>
-<joint name="hinge_${lr}_${fr}1">
+<joint name="hinge_${lr}_${fr}_1">
 <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
 </joint>
 <actuator name="hinge_${lr}_${fr}_1_motor">

@@ -32,16 +32,10 @@ izz="${m*(x*x+z*z)/12.}" />
 <turnGravityOff>false</turnGravityOff>
 </gazebo>
 
-<joint name="base_link_joint" type="fixed">
-<origin xyz="0 0 0" rpy="0 0 0" />
-<parent link="base_footprint"/>
-<child link="torso" />
-</joint>
-
   <!--body-->
   <link name="torso">
     <inertial>
-    <origin xyz="0 0 0" rpy="0 0 0" />
+    <origin xyz="0 0 0"/>
     <mass value="${base_mass}" />
     <box_inertia  m="${base_mass}" x="${base_x_size}" y="${base_y_size}" z="${base_z_size}"/>
     </inertial>
@@ -56,18 +50,30 @@ izz="${m*(x*x+z*z)/12.}" />
       <geometry>
 	<box size="${base_x_size} ${base_y_size} ${base_z_size}"/>
       </geometry>
-    <material name="White" />
+    <material name="Gray" />
    </visual>
   </link>
 
-  <!--legs macro-->
-  <leg fr="fore" lr="left" transX="1" transY="1"/>
-  <leg fr="fore" lr="right" transX="1" transY="-1"/>
-  <leg fr="rear" lr="left" transX="-1" transY="1"/>
-  <leg fr="rear" lr="right" transX="-1" transY="-1"/>
+<joint name="base_link_joint" type="fixed">
+<origin xyz="0 0 0" rpy="0 0 0" />
+<parent link="base_footprint"/>
+<child link="torso" />
+</joint>
+
+<!--legs macro-->
+<leg fr="fore" lr="left" transX="1" transY="1"/>
+<leg fr="fore" lr="right" transX="1" transY="-1"/>
+<leg fr="rear" lr="left" transX="-1" transY="1"/>
+<leg fr="rear" lr="right" transX="-1" transY="-1"/>
   
+  <!-- =========gazebo reference============ -->
+<gazebo reference="torso">
+<material>Gazebo/Black</material>
+<turnGravityOff>false</turnGravityOff>
+</gazebo>
+
   <!--gazebo>
-  <plugin name="gazebo_legged_robot_plugin" filename="libgazebo_legged_robot_plugin.so" >
+  <plugin name="gazebo_legged_robot_walking_plugin" filename="libgazebo_legged_robot_walking_plugin.so" >
     <hinge_lf1>hinge_left_fore_1</hinge_lf1>
     <hinge_lf2>hinge_left_fore_2</hinge_lf2>
     <hinge_lf3>hinge_left_fore_3</hinge_lf3>
