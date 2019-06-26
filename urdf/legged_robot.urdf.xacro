@@ -26,11 +26,11 @@ iyy="${m*(x*x+z*z)/12.}" iyz = "0."
 izz="${m*(x*x+z*z)/12.}" />
 </macro>
 
-<!--link name="base_footprint"/>
+<link name="base_footprint"/>
 
 <gazebo reference="base_footprint">
 <turnGravityOff>false</turnGravityOff>
-</gazebo-->
+</gazebo>
 
   <!--body-->
   <link name="torso">
@@ -54,11 +54,11 @@ izz="${m*(x*x+z*z)/12.}" />
     </collision>
   </link>
 
-<!--joint name="base_link_joint" type="fixed">
+<joint name="base_link_joint" type="fixed">
 <origin xyz="0 0 0" rpy="0 0 0" />
 <parent link="base_footprint"/>
 <child link="torso" />
-</joint-->
+</joint>
 
 <!--legs macro-->
 <leg fr="fore" lr="left" transX="1" transY="1"/>
