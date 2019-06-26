@@ -1,0 +1,88 @@
+<?xml version='1.0'?>
+<robot name="legged_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Included URDF/XACRO Files -->
+<xacro:include filename="$(find legged_robot)/urdf/materials.urdf.xacro" />
+<xacro:include filename="$(find legged_robot)/urdf/leg.urdf.xacro" />
+
+<!--configuration-->
+<property name="base_mass" value="10.0" />
+<property name="base_x_size" value="0.5" />
+<property name="base_y_size" value="0.3" />
+<property name="base_z_size" value="0.05" />
+<property name="leg_base_height" value="0.050" />
+<property name="leg_base_radius" value="0.025" />
+<property name="lower_leg_height" value="0.3" />
+<property name="lower_leg_radius" value="0.02" />
+<property name="lower_leg_mass" value="2.0" />
+<property name="upper_leg_height" value="0.3" />
+<property name="upper_leg_radius" value="0.02" />
+<property name="upper_leg_mass" value="2.0" />
+
+<!--macro-->
+<macro name="box_inertia" params="m x y z">
+<inertia  ixx="${m*(y*y+z*z)/12.}" ixy = "0." ixz = "0."
+iyy="${m*(x*x+z*z)/12.}" iyz = "0."
+izz="${m*(x*x+z*z)/12.}" />
+</macro>
+
+<link name="base_footprint"/>
+
+<gazebo reference="base_footprint">
+<turnGravityOff>false</turnGravityOff>
+</gazebo>
+
+<joint name="base_link_joint" type="fixed">
+<origin xyz="0 0 0" rpy="0 0 0" />
+<parent link="base_footprint"/>
+<child link="torso" />
+</joint>
+
+  <!--body-->
+  <link name="torso">
+    <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <mass value="${base_mass}" />
+    <box_inertia  m="${base_mass}" x="${base_x_size}" y="${base_y_size}" z="${base_z_size}"/>
+    </inertial>
+    <collision name='collision'>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+	<box size="${base_x_size} ${base_y_size} ${base_z_size}"/>
+      </geometry>
+    </collision>
+    <visual name='visual'>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+	<box size="${base_x_size} ${base_y_size} ${base_z_size}"/>
+      </geometry>
+    <material name="White" />
+   </visual>
+  </link>
+
+  <!--legs macro-->
+  <leg fr="fore" lr="left" transX="1" transY="1"/>
+  <leg fr="fore" lr="right" transX="1" transY="-1"/>
+  <leg fr="rear" lr="left" transX="-1" transY="1"/>
+  <leg fr="rear" lr="right" transX="-1" transY="-1"/>
+  
+  <!--gazebo>
+  <plugin name="gazebo_legged_robot_plugin" filename="libgazebo_legged_robot_plugin.so" >
+    <hinge_lf1>hinge_left_fore_1</hinge_lf1>
+    <hinge_lf2>hinge_left_fore_2</hinge_lf2>
+    <hinge_lf3>hinge_left_fore_3</hinge_lf3>
+    <hinge_lr1>hinge_left_rear_1</hinge_lr1>
+    <hinge_lr2>hinge_left_rear_2</hinge_lr2>
+    <hinge_lr3>hinge_left_rear_3</hinge_lr3>
+    <hinge_rf1>hinge_right_fore_1</hinge_rf1>
+    <hinge_rf2>hinge_right_fore_2</hinge_rf2>
+    <hinge_rf3>hinge_right_fore_3</hinge_rf3>
+    <hinge_rr1>hinge_right_rear_1</hinge_rr1>
+    <hinge_rr2>hinge_right_rear_2</hinge_rr2>
+    <hinge_rr3>hinge_right_rear_3</hinge_rr3>
+    <gain>0.1 </gain>
+    <sensor>sensor</sensor>
+    <ray_sensor>laser</ray_sensor>
+  </plugin>
+  </gazebo-->
+</robot>

@@ -1,0 +1,501 @@
+<?xml version='1.0'?>
+<sdf version='1.4'>
+
+<!-- 脚ロボット -->
+<model name="legged_robot">
+  <static>false</static> <!-- trueにすると静的モデル -->
+
+  <!-- 胴体 -->
+  <link name="torso">
+    <pose>0 0 0.6 0 0 0</pose>
+    <inertial>
+    <mass>10</mass>
+    <inertia>
+      <ixx>0.07</ixx>
+      <iyy>0.08</iyy>
+      <izz>0.10</izz>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyz>0</iyz>
+    </inertia>
+    </inertial>
+    <collision name='collision'>
+      <geometry>
+	<box>
+	  <size>0.5 0.3 0.05</size>
+	</box>
+      </geometry>
+    </collision>
+    <visual name='visual'>
+      <geometry>
+	<box>
+	  <size>0.5 0.3 0.05</size>
+	</box>
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- リンク：左前脚土台　-->
+  <link name='base_left_fore'>
+  <pose>0.23 0.17 0.595 1.5707 0  0 </pose> <!-- 位置(x,y,z)と姿勢(roll,pitch,yaw) -->
+  <visual name='visual'> <!-- 表示用 -->
+    <geometry> <!-- 形状情報 -->
+      <cylinder> <!-- 円柱　-->
+	<radius>0.025</radius> <!-- 半径 -->
+	<length>0.05</length>  <!-- 長さ -->
+      </cylinder>
+    </geometry>
+  </visual>
+  </link>
+
+　<!-- リンク：左後脚土台　-->
+  <link name='base_left_rear'>
+  <pose>-0.23 0.17 0.595  1.5707 0  0 </pose> <!-- 位置(x,y,z)と姿勢(roll,pitch,yaw) -->
+  <visual name='visual'> <!-- 表示用 -->
+    <geometry> <!-- 形状情報 -->
+      <cylinder> <!-- 円柱　-->
+	<radius>0.025</radius> <!-- 半径 -->
+	<length>0.05</length>  <!-- 長さ -->
+      </cylinder>
+    </geometry>
+  </visual>
+  </link>
+  
+　<!-- リンク：右前脚土台　-->
+  <link name='base_right_fore'>
+  <pose>0.23 -0.17 0.595 1.5707 0  0 </pose> <!-- 位置(x,y,z)と姿勢(roll,pitch,yaw) -->
+  <visual name='visual'> <!-- 表示用 -->
+    <geometry> <!-- 形状情報 -->
+      <cylinder> <!-- 円柱　-->
+	<radius>0.025</radius> <!-- 半径 -->
+	<length>0.05</length>  <!-- 長さ -->
+      </cylinder>
+    </geometry>
+  </visual>
+  </link>
+ 
+  <!-- リンク：右後脚土台　-->
+  <link name='base_right_rear'>
+    <pose>-0.23 -0.17 0.595 1.5707 0  0 </pose> 
+    <visual name='visual'> <!-- 表示用 -->
+      <geometry> <!-- 形状情報 -->
+	<cylinder> <!-- 円柱　-->
+	  <radius>0.025</radius> <!-- 半径 -->
+	  <length>0.05</length>  <!-- 長さ -->
+	</cylinder>
+      </geometry>
+    </visual>
+  </link>
+
+　<!-- 左前下脚　-->
+  <link name='link_left_fore_lower'>
+    <self_collide>0</self_collide>
+    <pose>0.23 0.17 0.15 0 0 0</pose> 
+    <inertial>
+      <inertia>
+	<ixx>0.01</ixx>
+	<ixy>0</ixy>
+	<ixz>0</ixz>
+	<iyy>0.01</iyy>
+	<iyz>0</iyz>
+	<izz>0.01</izz>
+      </inertia>
+      <mass>2.0</mass>
+    </inertial>
+    <collision name='collision'>
+      <geometry>
+	<cylinder> 
+	  <radius>0.02</radius> <!-- 半径 -->
+	  <length>0.3</length>  <!-- 長さ -->
+	</cylinder>
+      </geometry>
+      <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+	      <mu2>1.0</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+      </surface>
+    </collision>
+    <visual name='visual'> <!-- 表示用 -->
+      <geometry> <!-- 形状情報 -->
+	<cylinder> 
+	  <radius>0.02</radius> <!-- 半径 -->
+	  <length>0.3</length>  <!-- 長さ -->
+	</cylinder>
+      </geometry>
+    </visual>
+  </link>
+
+　<!-- 左後下脚　-->
+  <link name='link_left_rear_lower'>
+    <self_collide>0</self_collide>
+    <pose>-0.23 0.17 0.15 0 0 0</pose> 
+    <inertial>
+      <inertia>
+	<ixx>0.01</ixx>
+	<ixy>0</ixy>
+	<ixz>0</ixz>
+	<iyy>0.01</iyy>
+	<iyz>0</iyz>
+	<izz>0.01</izz>
+      </inertia>
+      <mass>2.0</mass>
+    </inertial>
+    <collision name='collision'>
+      <geometry>
+	<cylinder> 
+	  <radius>0.02</radius> <!-- 半径 -->
+	  <length>0.3</length>  <!-- 長さ -->
+	</cylinder>
+      </geometry>
+      <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+      </surface>
+    </collision>
+    <visual name='visual'> <!-- 表示用 -->
+      <geometry> <!-- 形状情報 -->
+	<cylinder> 
+	  <radius>0.02</radius> <!-- 半径 -->
+	  <length>0.3</length>  <!-- 長さ -->
+	</cylinder>
+      </geometry>
+    </visual>
+  </link>
+  
+　<!-- 右前下脚　-->
+  <link name='link_right_fore_lower'>
+  <self_collide>0</self_collide>
+   <pose>0.23 -0.17 0.15 0 0 0</pose>
+   <inertial>
+     <inertia>
+       <ixx>0.01</ixx>
+       <ixy>0</ixy>
+       <ixz>0</ixz>
+       <iyy>0.01</iyy>
+       <iyz>0</iyz>
+       <izz>0.01</izz>
+     </inertia>
+     <mass>2.0</mass>
+   </inertial>
+   <collision name='collision'>
+     <geometry>
+       <cylinder> 
+	 <radius>0.02</radius> <!-- 半径 -->
+	 <length>0.3</length>  <!-- 長さ -->
+       </cylinder>
+     </geometry>
+     <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+     </surface>
+   </collision>
+   <visual name='visual'> <!-- 表示用 -->
+     <geometry> <!-- 形状情報 -->
+       <cylinder> 
+	 <radius>0.02</radius> <!-- 半径 -->
+	 <length>0.3</length>  <!-- 長さ -->
+       </cylinder>
+     </geometry>
+   </visual>
+  </link>
+  
+　<!-- 右後下脚　-->
+  <link name='link_right_rear_lower'>　<!-- 右後下脚　-->
+  <self_collide>0</self_collide>
+  <pose>-0.23 -0.17 0.15 0 0 0</pose>
+  <inertial>
+    <inertia>
+      <ixx>0.01</ixx>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyy>0.01</iyy>
+      <iyz>0</iyz>
+      <izz>0.01</izz>
+    </inertia>
+    <mass>2.0</mass>
+  </inertial>
+  <collision name='collision'>
+    <geometry>
+      <cylinder> 
+	<radius>0.02</radius> <!-- 半径 -->
+	<length>0.3</length>  <!-- 長さ -->
+      </cylinder>
+    </geometry>
+    <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
+              <slip1>0.0</slip1>
+              <slip2>0.0</slip2>
+            </ode>
+          </friction>
+    </surface>
+  </collision>
+  <visual name='visual'> <!-- 表示用 -->
+    <geometry> <!-- 形状情報 -->
+      <cylinder> 
+	<radius>0.02</radius> <!-- 半径 -->
+	<length>0.3</length>  <!-- 長さ -->
+      </cylinder>
+    </geometry>
+  </visual>
+  </link>
+  
+　<!-- 左前上脚　-->
+  <link name='link_left_fore_upper'>
+  <self_collide>0</self_collide>
+  <pose>0.23 0.17 0.45 0 0 0</pose> 
+  <inertial>
+    <inertia>
+      <ixx>0.01</ixx>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyy>0.01</iyy>
+      <iyz>0</iyz>
+      <izz>0.01</izz>
+    </inertia>
+    <mass>2.0</mass>
+  </inertial>
+  <visual name='visual'> <!-- 表示用 -->
+    <geometry> <!-- 形状情報 -->
+      <cylinder> <!-- カプセル　-->
+	<radius>0.02</radius> <!-- 半径 -->
+	<length>0.3</length>  <!-- 長さ -->
+      </cylinder>
+    </geometry>
+  </visual>
+  </link>
+
+　<!-- 左後上脚　-->
+  <link name='link_left_rear_upper'>
+  <self_collide>0</self_collide>
+  <pose>-0.23 0.17 0.45 0 0 0</pose> 
+  <inertial>
+    <inertia>
+      <ixx>0.01</ixx>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyy>0.01</iyy>
+      <iyz>0</iyz>
+      <izz>0.01</izz>
+    </inertia>
+    <mass>2.0</mass>
+  </inertial>
+  <visual name='visual'> <!-- 表示用 -->
+    <geometry> <!-- 形状情報 -->
+      <cylinder> <!-- カプセル　-->
+	<radius>0.02</radius> <!-- 半径 -->
+	<length>0.3</length>  <!-- 長さ -->
+      </cylinder>
+    </geometry>
+  </visual>
+  </link>
+  
+  <!-- 右前上脚　-->
+  <link name='link_right_fore_upper'>　
+  <self_collide>0</self_collide>
+  <pose>0.23 -0.17 0.45 0 0 0</pose>
+  <inertial>
+    <inertia>
+     <ixx>0.01</ixx>
+     <ixy>0</ixy>
+     <ixz>0</ixz>
+     <iyy>0.01</iyy>
+     <iyz>0</iyz>
+     <izz>0.01</izz>
+   </inertia>
+   <mass>2.0</mass>
+  </inertial>
+  <visual name='visual'> <!-- 表示用 -->
+    <geometry> <!-- 形状情報 -->
+      <cylinder> <!-- カプセル　-->
+	<radius>0.02</radius> <!-- 半径 -->
+	<length>0.3</length>  <!-- 長さ -->
+      </cylinder>
+    </geometry>
+  </visual>
+  </link>
+
+　<!-- 右後上脚　-->
+  <link name='link_right_rear_upper'>
+  <self_collide>0</self_collide>
+  <pose>-0.23 -0.17 0.45 0 0 0</pose>
+  <inertial>
+    <inertia>
+      <ixx>0.01</ixx>
+      <ixy>0</ixy>
+      <ixz>0</ixz>
+      <iyy>0.01</iyy>
+      <iyz>0</iyz>
+      <izz>0.01</izz>
+    </inertia>
+    <mass>2.0</mass>
+  </inertial>
+  <visual name='visual'> <!-- 表示用 -->
+    <geometry> <!-- 形状情報 -->
+      <cylinder> 
+	<radius>0.02</radius> <!-- 半径 -->
+	<length>0.3</length>  <!-- 長さ -->
+      </cylinder>
+    </geometry>
+  </visual>
+  </link>
+
+
+  <!-- ジョイント(関節)　revoluteは回転式(ヒンジ）-->
+  <!--左前第１関節 -->
+  <joint type="revolute" name="hinge_lf1"> 
+    <pose>0 0 0 0 0 0</pose>
+    <child>base_left_fore</child> <!-- 子(下位)リンク -->
+    <parent>torso</parent>  <!-- 親(上位)リンク -->
+    <axis>
+      <xyz>0 1 0</xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+
+  <!--左後第１関節 -->
+  <joint type="revolute" name="hinge_lr1">  
+    <pose>0 0 0 0 0 0</pose>
+    <child>base_left_rear</child> <!-- 子(下位)リンク -->
+    <parent>torso</parent>  <!-- 親(上位)リンク -->
+    <axis>
+      <xyz>0 1 0</xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+  
+  <!--右前第１関節 -->
+  <joint type="revolute" name="hinge_rf1"> 
+    <pose>0 0 0 0 0 0</pose>
+    <child> base_right_fore</child> <!-- 子(下位)リンク -->
+    <parent>torso</parent>  <!-- 親(上位)リンク -->
+    <axis>
+      <xyz>0 1 0</xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+
+  <!--右後第１関節 --> 
+  <joint type="revolute" name="hinge_rr1"> 
+    <pose>0 0 0 0 0 0</pose>
+    <child> base_right_rear</child> <!-- 子(下位)リンク -->
+    <parent>torso</parent>  <!-- 親(上位)リンク -->
+    <axis>
+      <xyz>0 1 0</xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+  
+  <!--左前第2関節 --> 
+  <joint type="revolute" name="hinge_lf2">
+    <pose>0 0 0.15 0 0 0</pose>
+    <child> link_left_fore_upper</child> <!-- 子(下位)リンク -->
+    <parent>base_left_fore</parent>  <!-- 親(上位)リンク -->
+    <axis>
+      <xyz>1 0 0 </xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+
+  <joint type="revolute" name="hinge_lr2"> <!--左後第2関節 --> 
+    <pose>0 0 0.15 0 0 0</pose>
+    <child> link_left_rear_upper</child> <!-- 子(下位)リンク -->
+    <parent>base_left_rear</parent>  <!-- 親(上位)リンク -->
+    <axis>
+      <xyz>1 0 0</xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+  
+  <!--右前第2関節 --> 
+  <joint type="revolute" name="hinge_rf2">
+    <pose>0 0 0.15 0 0 0</pose>
+    <child> link_right_fore_upper</child> <!-- 子(下位)リンク -->
+    <parent>base_right_fore</parent>  <!-- 親(上位)リンク -->
+    <axis>
+      <xyz>1 0 0</xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+
+  <!--右後第2関節 --> 
+  <joint type="revolute" name="hinge_rr2">
+    <pose>0 0 0.15 0 0 0</pose>
+    <child> link_right_rear_upper</child> <!-- 子(下位)リンク -->
+    <parent>base_right_rear</parent>  <!-- 親(上位)リンク -->
+    <axis>
+      <xyz>1 0 0</xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+  
+  <!--左前第3関節 --> 
+  <joint type="revolute" name="hinge_lf3"> 
+    <pose>0 0 0.15 0 0 0</pose>
+    <child> link_left_fore_lower</child> <!-- 子(下位)リンク -->
+    <parent>link_left_fore_upper</parent>  <!-- 親(上位)リンク -->
+    <axis>
+      <xyz>0 1 0</xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+
+  <!--左後第3関節 --> 
+  <joint type="revolute" name="hinge_lr3">
+    <pose>0 0 0.15 0 0 0</pose>
+    <child> link_left_rear_lower</child> <!-- 子(下位)リンク -->
+    <parent>link_left_rear_upper</parent>  <!-- 親(上位)リンク -->
+    <axis>
+      <xyz>0 1 0</xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+  
+  <!--右前第3関節 --> 
+  <joint type="revolute" name="hinge_rf3">
+    <pose>0 0 0.15 0 0 0</pose>
+    <child> link_right_fore_lower</child> <!-- 子(下位)リンク -->
+    <parent>link_right_fore_upper</parent>  <!-- 親(上位)リンク -->
+    <axis>
+      <xyz>0 1 0</xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+ 
+  <!--右後第3関節 --> 
+  <joint type="revolute" name="hinge_rr3">
+    <pose>0 0 0.15 0 0 0</pose>
+    <child> link_right_rear_lower</child> <!-- 子(下位)リンク -->
+    <parent>link_right_rear_upper</parent>  <!-- 親(上位)リンク -->
+    <axis>
+     <xyz>0 1 0</xyz> <!-- 回転軸ベクトル(x,y,z)　-->
+    </axis>
+  </joint>
+
+  <plugin name="legged" filename="liblegged.so" >
+    <hinge_lf1>hinge_lf1</hinge_lf1>
+    <hinge_lf2>hinge_lf2</hinge_lf2>
+    <hinge_lf3>hinge_lf3</hinge_lf3>
+    <hinge_lr1>hinge_lr1</hinge_lr1>
+    <hinge_lr2>hinge_lr2</hinge_lr2>
+    <hinge_lr3>hinge_lr3</hinge_lr3>
+    <hinge_rf1>hinge_rf1</hinge_rf1>
+    <hinge_rf2>hinge_rf2</hinge_rf2>
+    <hinge_rf3>hinge_rf3</hinge_rf3>
+    <hinge_rr1>hinge_rr1</hinge_rr1>
+    <hinge_rr2>hinge_rr2</hinge_rr2>
+    <hinge_rr3>hinge_rr3</hinge_rr3>
+    <gain>0.1 </gain>
+    <sensor>sensor</sensor>
+    <ray_sensor>laser</ray_sensor>
+  </plugin>
+</model>
+</sdf>
