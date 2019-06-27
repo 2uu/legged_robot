@@ -4,11 +4,11 @@ based on https://demura.net/lecture/11554.html
 
 Tested on Gazebo 9.0 and ROS melodic
 
-this repository includes:
+this repository includes these launch:
 - rviz.launch
 - gazebo.launch
 
-Try:
+Try as follows:
 ```
 roslaunch legged_robot display.launch
 ```
