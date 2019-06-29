@@ -162,7 +162,7 @@ namespace gazebo{
 
             if(isCmdReceived_){
                 for ( int i = 0; i < joints_.size(); i++ ) {
-                    if(!hinge_msg_.velocity.size() == joints_.size())
+                    if(hinge_msg_.velocity.size() != joints_.size())
                         joints_[i]->SetParam ( "vel", 0, 0.0);
                     else
                         joints_[i]->SetParam ( "vel", 0, hinge_msg_.velocity[i]);
