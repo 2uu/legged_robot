@@ -2,7 +2,7 @@
 ROS package; legged robot urdf and plugin  
 based on https://demura.net/lecture/11554.html  
 
-<img src="image/legged_robot_rviz.png" alt="rviz" title="on rviz" width="300"><img src="image/legged_robot_gazebo.png" alt="gazebo" title="on gazebo" width="300">
+<img src="image/legged_robot_rviz.png" alt="rviz" title="on rviz" width="300" height="250"><img src="image/legged_robot_gazebo.png" alt="gazebo" title="on gazebo" width="300" height=250>
 
 Tested on Gazebo 9.0 and ROS melodic  
 - plugin: gazebo_ros_legged_robot.so
