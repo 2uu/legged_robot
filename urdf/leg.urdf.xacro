@@ -109,7 +109,7 @@ izz="${m*r*r/2}" />
     <limit effort="${limit_effort}" velocity="${limit_velocity}" lower="${limit_lower_2}" upper="${limit_upper_2}" />
   </joint>
   
-  <!--left fore 3rd joint--> 
+  <!--3rd joint--> 
   <joint type="revolute" name="hinge_${lr}_${fr}_3">
     <parent link="link_${lr}_${fr}_upper"/>  
     <child link="link_${lr}_${fr}_lower"/>

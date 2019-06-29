@@ -61,8 +61,8 @@ izz="${m*(x*x+z*z)/12.}" />
 </joint>
 
 <!--legs macro-->
-<leg fr="fore" lr="left" transX="1" transY="1"/>
-<leg fr="fore" lr="right" transX="1" transY="-1"/>
+<leg fr="front" lr="left" transX="1" transY="1"/>
+<leg fr="front" lr="right" transX="1" transY="-1"/>
 <leg fr="rear" lr="left" transX="-1" transY="1"/>
 <leg fr="rear" lr="right" transX="-1" transY="-1"/>
   
@@ -72,23 +72,23 @@ izz="${m*(x*x+z*z)/12.}" />
 <turnGravityOff>false</turnGravityOff>
 </gazebo>
 
-  <!--gazebo>
-  <plugin name="gazebo_legged_robot_walking_plugin" filename="libgazebo_legged_robot_walking_plugin.so" >
-    <hinge_lf1>hinge_left_fore_1</hinge_lf1>
-    <hinge_lf2>hinge_left_fore_2</hinge_lf2>
-    <hinge_lf3>hinge_left_fore_3</hinge_lf3>
+<gazebo>
+  <plugin name="gazebo_ros_legged_robot" filename="libgazebo_ros_legged_robot.so" >
+    <hinge_lf1>hinge_left_front_1</hinge_lf1>
+    <hinge_lf2>hinge_left_front_2</hinge_lf2>
+    <hinge_lf3>hinge_left_front_3</hinge_lf3>
     <hinge_lr1>hinge_left_rear_1</hinge_lr1>
     <hinge_lr2>hinge_left_rear_2</hinge_lr2>
     <hinge_lr3>hinge_left_rear_3</hinge_lr3>
-    <hinge_rf1>hinge_right_fore_1</hinge_rf1>
-    <hinge_rf2>hinge_right_fore_2</hinge_rf2>
-    <hinge_rf3>hinge_right_fore_3</hinge_rf3>
+    <hinge_rf1>hinge_right_front_1</hinge_rf1>
+    <hinge_rf2>hinge_right_front_2</hinge_rf2>
+    <hinge_rf3>hinge_right_front_3</hinge_rf3>
     <hinge_rr1>hinge_right_rear_1</hinge_rr1>
     <hinge_rr2>hinge_right_rear_2</hinge_rr2>
     <hinge_rr3>hinge_right_rear_3</hinge_rr3>
-    <gain>0.1 </gain>
-    <sensor>sensor</sensor>
-    <ray_sensor>laser</ray_sensor>
+    <gain>0.1</gain>
+    <hingeTorque>100.0</hingeTorque>
+    <publishHingeTF>false</publishHingeTF>
   </plugin>
-  </gazebo-->
+  </gazebo>
 </robot>

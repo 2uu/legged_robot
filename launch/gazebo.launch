@@ -1,18 +1,18 @@
 <launch>      
  <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find legged_robot)/worlds/gym.world"/> 
-    <arg name="paused" value="true"/>
+    <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="false"/>
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
   </include>
+
 <arg name="rvizconfig" default="$(find legged_robot)/urdf.rviz"/>
  <param name="robot_description" command="$(find xacro)/xacro $(find legged_robot)/urdf/legged_robot.urdf.xacro" />
 
  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-x 0.0 -y 0.0 -z 2.0 -param robot_description -urdf -model legged_robot" />
-
- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
- <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
  
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+ <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true"/>
 </launch>
