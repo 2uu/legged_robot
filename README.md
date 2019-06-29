@@ -3,8 +3,8 @@ ROS package; legged robot urdf and plugin
 based on https://demura.net/lecture/11554.html  
 
 Tested on Gazebo 9.0 and ROS melodic  
-plugin: gazebo_ros_leged_robot.so  
-control_node: trot(incomplete)  
+- plugin: gazebo_ros_leged_robot.so
+- control_node: trot(incomplete)
 
 this repository includes these launch:
 - rviz.launch
