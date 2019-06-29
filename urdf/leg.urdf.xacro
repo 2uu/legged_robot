@@ -6,24 +6,33 @@
 <property name="leg_base_radius" value="0.025" />
 <property name="leg_base_mass" value="0.5" />
 <property name="lower_leg_height" value="0.3" />
-<property name="lower_leg_radius" value="0.02" />
+<property name="lower_leg_radius" value="0.01" />
 <property name="lower_leg_mass" value="2.0" />
-<property name="upper_leg_height" value="0.3" />
+<property name="upper_leg_height" value="0.20" />
 <property name="upper_leg_radius" value="0.02" />
 <property name="upper_leg_mass" value="2.0" />
-<property name="limit_effort" value="30" />
-<property name="limit_velocity" value="1.0" />
-<property name="limit_lower_1" value="-1.57" />
-<property name="limit_upper_1" value="1.57" />
+<property name="limit_effort" value="1000" />
+<property name="limit_velocity" value="100.0" />
+<property name="limit_lower_1" value="-0.3926875" />
+<property name="limit_upper_1" value="0.785" />
 <property name="limit_lower_2" value="-0.1963" />
 <property name="limit_upper_2" value="0.1963" />
-<property name="limit_lower_3" value="-1.57" />
-<property name="limit_upper_3" value="0" />
+<property name="limit_lower_3" value="-0.785" />
+<property name="limit_upper_3" value="0.785" />
+
+<property name="sphere_r" value="0.02" />
+<property name="sphere_mass" value="0.02" />
 
 <macro name="cylinder_inertia" params="m r h">
 <inertia  ixx="${m*(3*r*r+h*h)/12}" ixy = "0" ixz = "0"
 iyy="${m*(3*r*r+h*h)/12}" iyz = "0"
 izz="${m*r*r/2}" />
+</macro>
+
+<macro name="sphere_inertia" params="m r">
+<inertia  ixx="${m*(2*r*r)/5}" ixy = "0" ixz = "0"
+iyy="${m*(2*r*r)/5}}" iyz = "0"
+izz="${m*(2*r*r)/5}" />
 </macro>
 
 <xacro:macro name="leg" params="fr lr transX transY">
@@ -33,7 +42,7 @@ izz="${m*r*r/2}" />
     <geometry>
       <cylinder length="${leg_base_height}" radius="${leg_base_radius}"/>
     </geometry>
-  <material name="Gray" />
+  <material name="Black" />
    </visual>
    <collision>
    <origin xyz="0 0 0" rpy="0 0 0 " />
@@ -47,6 +56,32 @@ izz="${m*r*r/2}" />
       <cylinder_inertia  m="${leg_base_mass}" r="${leg_base_radius}" h="${leg_base_height}" />
     </inertial>
   </link>
+
+<link name='serbo_${lr}_${fr}'>
+  <visual>
+    <geometry>
+      <cylinder length="${leg_base_height}" radius="${leg_base_radius}"/>
+    </geometry>
+  <material name="Black" />
+   </visual>
+   <collision>
+   <origin xyz="0 0 0" rpy="0 0 0 " />
+	<geometry>
+	<cylinder length="${leg_base_height}" radius="${leg_base_radius}"/>
+	</geometry>
+</collision>
+<inertial>
+     <origin xyz="0 0 0" />
+      <mass value="${leg_base_mass}" />
+      <cylinder_inertia  m="${leg_base_mass}" r="${leg_base_radius}" h="${leg_base_height}" />
+    </inertial>
+  </link>
+ 
+   <joint name="serbo_${lr}_${fr}_joint" type="fixed">
+    <parent link="link_${lr}_${fr}_upper"/>
+    <child  link="serbo_${lr}_${fr}"/>
+    <origin xyz="0 0 ${upper_leg_height}" rpy="1.5707 0 0"/>
+  </joint>
   
 <link name='link_${lr}_${fr}_lower'>
     <inertial>
@@ -90,12 +125,38 @@ izz="${m*r*r/2}" />
    </visual>
   </link>
   
+  <link name='ball_${lr}_${fr}'>
+  <visual>
+    <geometry>
+      <sphere radius="${sphere_r}"/>
+    </geometry>
+  <material name="Black" />
+   </visual>
+   <collision>
+   <origin xyz="0 0 0" rpy="0 0 0 " />
+	<geometry>
+	<sphere radius="${sphere_r}"/>
+	</geometry>
+</collision>
+<inertial>
+     <origin xyz="0 0 0" />
+      <mass value="${sphere_mass}" />
+      <sphere_inertia  m="${sphere_mass}" r="${sphere_r}" />
+    </inertial>
+  </link>
+  
+  <joint name="ball_${lr}_${fr}_joint" type="fixed">
+    <parent link="link_${lr}_${fr}_lower"/>
+    <child  link="ball_${lr}_${fr}"/>
+    <origin xyz="0 0 ${lower_leg_height}" rpy="0 0 0"/>
+  </joint>
+  
   <!--joint-->
   <!--1st joint-->
   <joint type="revolute" name="hinge_${lr}_${fr}_1"> 
-    <parent link="torso"/>
+    <parent link="base_link"/>
     <child link="base_${lr}_${fr}"/>
-    <origin xyz="${transX*0.23} ${transY*0.17} 0.0" rpy="1.5707 0 0" />
+    <origin xyz="${transX*0.23} ${transY*0.17} 0.0" rpy="1.5707 0.785 0" />
     <axis xyz="0 0 1"/>
     <limit effort="${limit_effort}" velocity="${limit_velocity}" lower="${limit_lower_1}" upper="${limit_upper_1}" />
   </joint>
@@ -111,24 +172,24 @@ izz="${m*r*r/2}" />
   
   <!--3rd joint--> 
   <joint type="revolute" name="hinge_${lr}_${fr}_3">
-    <parent link="link_${lr}_${fr}_upper"/>  
+    <parent link="serbo_${lr}_${fr}"/>  
     <child link="link_${lr}_${fr}_lower"/>
-    <origin xyz="0 0 0.30" rpy="0 0 0" />
-    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 0" rpy="0 1.5707 0" />
+    <axis xyz="1 0 0"/>
     <limit effort="${limit_effort}" velocity="${limit_velocity}" lower="${limit_lower_3}" upper="${limit_upper_3}" />
   </joint>
 
 <!-- =========gazebo reference============ -->
 <gazebo reference="base_${lr}_${fr}">
 <selfCollide value="false"/>
-<material>Gazebo/Gray</material>
-<turnGravityOff>true</turnGravityOff>
+<material>Gazebo/Black</material>
+<turnGravityOff>false</turnGravityOff>
 </gazebo>
 
 <gazebo reference="link_${lr}_${fr}_lower">
 <selfCollide value="false"/>
-<mu1 value="1.0"/>
-<mu2 value="1.0"/>
+<mu1 value="10000.0"/>
+<mu2 value="10000.0"/>
 <kp  value="10000000.0" />
 <kd  value="1.0" />
 <fdir1 value="1 0 0"/>
@@ -138,12 +199,34 @@ izz="${m*r*r/2}" />
 
 <gazebo reference="link_${lr}_${fr}_upper">
 <selfCollide value="false"/>
-<mu1 value="1.0"/>
-<mu2 value="1.0"/>
+<mu1 value="10000.0"/>
+<mu2 value="10000.0"/>
 <kp  value="10000000.0" />
 <kd  value="1.0" />
 <fdir1 value="1 0 0"/>
 <material>Gazebo/Gray</material>
+<turnGravityOff>false</turnGravityOff>
+</gazebo>
+
+<gazebo reference="ball_${lr}_${fr}">
+<selfCollide value="false"/>
+<mu1 value="10000.0"/>
+<mu2 value="10000.0"/>
+<kp  value="10000000.0" />
+<kd  value="1.0" />
+<fdir1 value="1 0 0"/>
+<material>Gazebo/Black</material>
+<turnGravityOff>false</turnGravityOff>
+</gazebo>
+
+<gazebo reference="serbo_${lr}_${fr}">
+<selfCollide value="false"/>
+<mu1 value="10000.0"/>
+<mu2 value="10000.0"/>
+<kp  value="10000000.0" />
+<kd  value="1.0" />
+<fdir1 value="1 0 0"/>
+<material>Gazebo/Black</material>
 <turnGravityOff>false</turnGravityOff>
 </gazebo>
 

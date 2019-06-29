@@ -62,7 +62,31 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
-        base_left_fore:
+        ball_left_front:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ball_left_rear:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ball_right_front:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ball_right_rear:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_footprint:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        base_left_front:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -72,7 +96,12 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        base_right_fore:
+        base_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        base_right_front:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -82,12 +111,12 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        link_left_fore_lower:
+        link_left_front_lower:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        link_left_fore_upper:
+        link_left_front_upper:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -102,12 +131,12 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        link_right_fore_lower:
+        link_right_front_lower:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        link_right_fore_upper:
+        link_right_front_upper:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -122,7 +151,22 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-        torso:
+        serbo_left_front:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        serbo_left_rear:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        serbo_right_front:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        serbo_right_rear:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -137,7 +181,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: torso
+    Fixed Frame: base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -161,7 +205,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 10
+      Distance: 4.086756229400635
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -176,10 +220,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.785398006439209
+      Pitch: 0.1503986418247223
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.785398006439209
+      Yaw: 1.3753974437713623
     Saved: ~
 Window Geometry:
   Displays:
@@ -198,4 +242,4 @@ Window Geometry:
     collapsed: false
   Width: 1200
   X: 388
-  Y: 37
+  Y: 27

@@ -11,7 +11,7 @@
 <arg name="rvizconfig" default="$(find legged_robot)/urdf.rviz"/>
  <param name="robot_description" command="$(find xacro)/xacro $(find legged_robot)/urdf/legged_robot.urdf.xacro" />
 
- <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-x 0.0 -y 0.0 -z 2.0 -param robot_description -urdf -model legged_robot" />
+ <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-x 0.0 -y 0.0 -z 0.4 -param robot_description -urdf -model legged_robot" />
  
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true"/>

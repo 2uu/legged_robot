@@ -69,6 +69,7 @@ namespace gazebo{
                 bool publishJointState_;
                 bool isCmdReceived_;
                 bool alive_;
+                bool isAngleControl_;
 
                 // ROS STUFF
                 ros::Publisher joint_state_publisher_;
@@ -79,6 +80,7 @@ namespace gazebo{
 
                 //callback stuff
                 void cmdVelCallback(const sensor_msgs::JointState::ConstPtr& cmd_msg);
+                void cmdAngCallback(const sensor_msgs::JointState::ConstPtr& cmd_msg);
 
                 // Custom Callback Queue
                 ros::CallbackQueue queue_;

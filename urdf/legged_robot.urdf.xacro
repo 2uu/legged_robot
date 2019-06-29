@@ -6,18 +6,10 @@
 <xacro:include filename="$(find legged_robot)/urdf/leg.urdf.xacro" />
 
 <!--configuration-->
-<property name="base_mass" value="10.0" />
+<property name="base_mass" value="5.0" />
 <property name="base_x_size" value="0.5" />
 <property name="base_y_size" value="0.3" />
 <property name="base_z_size" value="0.05" />
-<property name="leg_base_height" value="0.050" />
-<property name="leg_base_radius" value="0.025" />
-<property name="lower_leg_height" value="0.3" />
-<property name="lower_leg_radius" value="0.02" />
-<property name="lower_leg_mass" value="2.0" />
-<property name="upper_leg_height" value="0.3" />
-<property name="upper_leg_radius" value="0.02" />
-<property name="upper_leg_mass" value="2.0" />
 
 <!--macro-->
 <macro name="box_inertia" params="m x y z">
@@ -33,7 +25,7 @@ izz="${m*(x*x+z*z)/12.}" />
 </gazebo>
 
   <!--body-->
-  <link name="torso">
+  <link name="base_link">
     <inertial>
     <origin xyz="0 0 0"/>
     <mass value="${base_mass}" />
@@ -57,7 +49,7 @@ izz="${m*(x*x+z*z)/12.}" />
 <joint name="base_link_joint" type="fixed">
 <origin xyz="0 0 0" rpy="0 0 0" />
 <parent link="base_footprint"/>
-<child link="torso" />
+<child link="base_link" />
 </joint>
 
 <!--legs macro-->
@@ -67,13 +59,14 @@ izz="${m*(x*x+z*z)/12.}" />
 <leg fr="rear" lr="right" transX="-1" transY="-1"/>
   
   <!-- =========gazebo reference============ -->
-<gazebo reference="torso">
+<gazebo reference="base_link">
 <material>Gazebo/Gray</material>
 <turnGravityOff>false</turnGravityOff>
 </gazebo>
 
 <gazebo>
   <plugin name="gazebo_ros_legged_robot" filename="libgazebo_ros_legged_robot.so" >
+    <commandTopic>/legged_robot/cmd_ang</commandTopic>
     <hinge_lf1>hinge_left_front_1</hinge_lf1>
     <hinge_lf2>hinge_left_front_2</hinge_lf2>
     <hinge_lf3>hinge_left_front_3</hinge_lf3>

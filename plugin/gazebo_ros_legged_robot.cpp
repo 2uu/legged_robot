@@ -17,7 +17,8 @@ namespace gazebo{
         // Make sure the ROS node for Gazebo has already been initialized
         gazebo_ros_->isInitialized();
 
-        gazebo_ros_->getParameter<std::string> ( command_topic_, "commandTopic", "joint_vel" );
+        gazebo_ros_->getParameterBoolean ( isAngleControl_, "angleControl", true);
+        gazebo_ros_->getParameter<std::string> ( command_topic_, "commandTopic", "cmd_vel" );
         gazebo_ros_->getParameter<std::string> ( robot_base_frame_, "robotBaseFrame", "base_footprint" );
         gazebo_ros_->getParameterBoolean ( publishHingeTF_, "publishHingeTF", true );
         gazebo_ros_->getParameterBoolean ( publishJointState_, "publishJointState", true );
@@ -40,6 +41,8 @@ namespace gazebo{
 
         for ( int i = 0; i < joints_.size(); i++ ) {
             joints_[i]->SetParam ( "fmax", 0, hinge_torque_ );
+            joints_[i]->SetPosition(0, 0.0);
+            //joints_[i]>SetForce(0, hinge_torque_);
         }
 
         if (this->publishJointState_){
@@ -52,13 +55,21 @@ namespace gazebo{
         // ROS: Subscribe to the velocity command topic (usually "cmd_vel")
         ROS_INFO_NAMED("ros_legged_robot", "%s: Try to subscribe to %s", gazebo_ros_->info(), command_topic_.c_str());
 
-        ros::SubscribeOptions so =
+        if(isAngleControl_){
+            ros::SubscribeOptions so =
+            ros::SubscribeOptions::create<sensor_msgs::JointState>(command_topic_, 1,
+                    boost::bind(&GazeboRosLeggedRobot::cmdAngCallback, this, _1),
+                    ros::VoidPtr(), &queue_);
+            cmd_vel_subscriber_ = gazebo_ros_->node()->subscribe(so);
+            ROS_INFO_NAMED("ros_legged_robot", "%s: Subscribe to %s", gazebo_ros_->info(), command_topic_.c_str());
+        }else{//velControl
+            ros::SubscribeOptions so =
             ros::SubscribeOptions::create<sensor_msgs::JointState>(command_topic_, 1,
                     boost::bind(&GazeboRosLeggedRobot::cmdVelCallback, this, _1),
                     ros::VoidPtr(), &queue_);
-
-        cmd_vel_subscriber_ = gazebo_ros_->node()->subscribe(so);
-        ROS_INFO_NAMED("ros_legged_robot", "%s: Subscribe to %s", gazebo_ros_->info(), command_topic_.c_str());
+            cmd_vel_subscriber_ = gazebo_ros_->node()->subscribe(so);
+            ROS_INFO_NAMED("ros_legged_robot", "%s: Subscribe to %s", gazebo_ros_->info(), command_topic_.c_str());
+        }
 
         alive_ = true;
 
@@ -110,6 +121,8 @@ namespace gazebo{
 
             joint_state_.name[i] = joint->GetName();
             joint_state_.position[i] = position;
+            //joint_state_.velocity[i] = joint->GetVelocity(0);
+            //joint_state_.effort[i] = joint->GetForce(0);
         }
         joint_state_publisher_.publish ( joint_state_ );
     }
@@ -160,7 +173,7 @@ namespace gazebo{
             // Update robot in case new velocities have been requested
             //gethingeVelocities();
 
-            if(isCmdReceived_){
+            if(isAngleControl_ && isCmdReceived_){
                 for ( int i = 0; i < joints_.size(); i++ ) {
                     if(hinge_msg_.velocity.size() != joints_.size())
                         joints_[i]->SetParam ( "vel", 0, 0.0);
@@ -190,6 +203,15 @@ namespace gazebo{
         //rot_ = cmd_msg->angular.z;
         hinge_msg_ = *cmd_msg;
         isCmdReceived_ = true;
+    }
+
+    void GazeboRosLeggedRobot::cmdAngCallback ( const sensor_msgs::JointState::ConstPtr& cmd_msg ){
+
+        if(cmd_msg->position.size() == joints_.size()){
+            for(int i=0;i<joints_.size();i++){
+                joints_[i]->SetPosition(0, cmd_msg->position[i]);
+            }
+        }
     }
 
 

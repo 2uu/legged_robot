@@ -109,4 +109,10 @@ target_link_libraries(gazebo_ros_legged_robot gazebo_ros_utils ${GAZEBO_LIBRARIE
 #no links to gazebo_ros_utils cause this error
 #: undefined symbol: _ZN6gazebo9GazeboRos19readCommonParameterEv
 
+add_executable(trot_control_node src/trot_control_node.cpp)
+target_link_libraries(trot_control_node
+   ${catkin_LIBRARIES}
+ )
+
+
 
