@@ -15,6 +15,13 @@ cubeStartOrientation = p.getQuaternionFromEuler([0,0,0])
 
 boxId = p.loadURDF("../urdf/legged_robot.urdf",cubeStartPos, cubeStartOrientation)
 
+"""
+import gym
+env = gym.make('Copy-v0')
+env.reset()
+env.render()
+"""
+
 #print(p.getNumJoints(boxId))
 #print([p.getJointInfo(boxId, i) for i in range(21)])
 maxForce = 500
@@ -26,7 +33,7 @@ while True: # とりあえずpythonを抜けないように
     #cubePos, cubeOrn = p.getBasePositionAndOrientation(boxId)
     state = p.getLinkState(boxId, 1)
     euler = p.getEulerFromQuaternion(state[1])
-    print(list(map(lambda x:x*180/3.14, euler)))
+    #print(list(map(lambda x:x*180/3.14, euler)))
     #print(cubePos,cubeOrn)
     if count%3000 == 0:
         [p.setJointMotorControl2(bodyUniqueId=boxId, 
